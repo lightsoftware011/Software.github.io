@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yiğit Software</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: 'Arial', sans-serif;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: none;
+            overflow: hidden;
+        }
+
+        .pyke-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('pyke.png'); /* Görselin doğru yolu */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            z-index: -1;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        .container {
+            text-align: center;
+            max-width: 600px;
+            padding: 40px;
+            border-radius: 20px;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            font-family: 'Georgia', serif;
+            font-weight: bold;
+            letter-spacing: 1px;
+            animation: typing 3s steps(40) 1s 1 normal both;
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 4px solid white;
+            margin-bottom: 30px;
+            display: inline-block;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 14px 35px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .login-btn {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            color: white;
+        }
+
+        .register-btn {
+            background: linear-gradient(135deg, #ff8c00, #ff7043); /* Turuncu tonlarında */
+            color: white;
+        }
+
+        .form-container {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .form-container input {
+            padding: 10px;
+            font-size: 1rem;
+            margin: 10px 0;
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        .form-container button {
+            background: linear-gradient(135deg, #f76b8a, #ff4081); /* Pembe tonlarında */
+            color: white;
+            padding: 12px;
+            width: 100%;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .form-container button:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="pyke-background"></div>
+
+    <div class="container">
+        <h1 id="title">-Yiğit Software-</h1>
+        
+        <!-- Giriş Yap ve Kayıt Ol butonları -->
+        <button class="login-btn" onclick="toggleForm('login')">Giriş Yap</button>
+        <button class="register-btn" onclick="toggleForm('register')">Kayıt Ol</button>
+
+        <!-- Giriş Yap Formu -->
+        <div id="login-form" class="form-container">
+            <input type="text" id="login-username" placeholder="Kullanıcı Adı" />
+            <input type="password" id="login-password" placeholder="Şifre" />
+            <button onclick="loginUser()">Giriş Yap</button>
+        </div>
+
+        <!-- Kayıt Ol Formu -->
+        <div id="register-form" class="form-container">
+            <input type="text" id="register-username" placeholder="Kullanıcı Adı" />
+            <input type="password" id="register-password" placeholder="Şifre" />
+            <input type="email" id="register-email" placeholder="E-posta" />
+            <input type="text" id="verification-code" placeholder="Doğrulama Kodu" />
+            <button onclick="registerUser()">Kayıt Ol</button>
+        </div>
+
+        <div class="status-text">Uyuyor...</div>
+    </div>
+
+    <script>
+        let verificationCode = null;
+
+        function toggleForm(formType) {
+            if (formType === 'login') {
+                document.getElementById('login-form').style.display = 'block';
+                document.getElementById('register-form').style.display = 'none';
+            } else if (formType === 'register') {
+                document.getElementById('register-form').style.display = 'block';
+                document.getElementById('login-form').style.display = 'none';
+                generateVerificationCode();  // Kayıt formunda doğrulama kodu oluştur
+            }
+        }
+
+        function generateVerificationCode() {
+            // 4 basamaktan oluşan rastgele bir doğrulama kodu oluştur
+            verificationCode = Math.floor(1000 + Math.random() * 9000);
+            alert('Doğrulama kodunuz: ' + verificationCode);
+        }
+
+        function registerUser() {
+            const username = document.getElementById('register-username').value;
+            const password = document.getElementById('register-password').value;
+            const email = document.getElementById('register-email').value;
+            const enteredCode = document.getElementById('verification-code').value;
+
+            if (username && password && email && enteredCode === verificationCode.toString()) {
+                localStorage.setItem('username', username);
+                localStorage.setItem('password', password);
+                localStorage.setItem('email', email);
+                alert('Kayıt başarılı!');
+                document.getElementById('register-form').style.display = 'none'; 
+            } else if (enteredCode !== verificationCode.toString()) {
+                alert('Geçersiz doğrulama kodu!');
+            } else {
+                alert('Lütfen tüm alanları doldurun ve doğrulama kodunu doğru girin.');
+            }
+        }
+
+        function loginUser() {
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+            
+            const storedUsername = localStorage.getItem('username');
+            const storedPassword = localStorage.getItem('password');
+            
+            if (username === storedUsername && password === storedPassword) {
+                alert('Giriş başarılı!');
+            } else {
+                alert('Kullanıcı adı veya şifre hatalı!');
+            }
+        }
+    </script>
+
+</body>
+</html>
