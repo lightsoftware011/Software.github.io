@@ -50,6 +50,9 @@
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
             position: relative;
             z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         h1 {
@@ -62,6 +65,7 @@
             white-space: nowrap;
             border-right: 4px solid white;
             margin-bottom: 30px;
+            display: inline-block;
         }
 
         button {
@@ -72,155 +76,134 @@
             text-transform: uppercase;
             border: none;
             border-radius: 12px;
-            background: linear-gradient(135deg, #6e8efb, #a777e3);
-            color: white;
             cursor: pointer;
-            transition: all 0.3s ease-in-out;
+            transition: all 0.4s ease;
             position: relative;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
-        button:hover {
-            transform: scale(1.1);
-        }
-
-        .status-text {
-            margin-top: 25px;
-            font-size: 1.1rem;
-            font-style: italic;
-            color: #cfcfcf;
-            opacity: 0.8;
-        }
-
-        .login-section {
-            display: none; /* Başlangıçta gizli */
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .login-section input {
-            padding: 12px 20px;
-            margin: 10px 0;
-            width: 100%;
-            max-width: 350px;
-            border-radius: 10px;
-            border: 2px solid #6e8efb;
-            background-color: rgba(0, 0, 0, 0.5);
-            color: white;
-            font-size: 1rem;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
-            transition: 0.3s;
-        }
-
-        .login-section input:focus {
-            border-color: #a777e3;
-            outline: none;
-            box-shadow: 0 0 15px rgba(167, 119, 227, 0.6);
-        }
-
-        .login-section button {
-            padding: 14px 30px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            border: none;
-            border-radius: 12px;
+        .login-btn {
             background: linear-gradient(135deg, #6e8efb, #a777e3);
             color: white;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-
-        .login-section button:hover {
-            transform: scale(1.05);
         }
 
         .register-btn {
-            background: linear-gradient(135deg, #ff8c00, #f74e3e);
-            margin-top: 15px;
-        }
-
-        .register-btn:hover {
-            transform: scale(1.1);
-        }
-
-        /* Sağ üst bağlantılar */
-        .top-links {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 0.9rem;
-            font-family: 'Arial', sans-serif;
-        }
-
-        .top-links a {
+            background: linear-gradient(135deg, #ff8c00, #ff7043); /* Turuncu tonlarında */
             color: white;
-            margin-left: 20px;
-            text-decoration: none;
-            transition: all 0.3s ease;
         }
 
-        .top-links a:hover {
-            color: #a777e3;
+        .form-container {
+            display: none;
+            margin-top: 20px;
         }
 
+        .form-container input {
+            padding: 10px;
+            font-size: 1rem;
+            margin: 10px 0;
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        .form-container button {
+            background: linear-gradient(135deg, #f76b8a, #ff4081); /* Pembe tonlarında */
+            color: white;
+            padding: 12px;
+            width: 100%;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .form-container button:hover {
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
 
-<div class="pyke-background"></div>
+    <div class="pyke-background"></div>
 
-<!-- Sağ üst köşe bağlantıları -->
-<div class="top-links">
-    <a href="https://www.youtube.com/watch?v=5s0ODbFh46k" target="_blank">Destek</a>
-    <a href="https://www.youtube.com/shorts/xetkLBM1DjY" target="_blank">Hakkında</a>
-    <a href="https://quickabdest.com/" target="_blank">Gizlilik Politikası</a>
-</div>
+    <div class="container">
+        <h1 id="title">-Yiğit Software-</h1>
+        
+        <!-- Giriş Yap ve Kayıt Ol butonları -->
+        <button class="login-btn" onclick="toggleForm('login')">Giriş Yap</button>
+        <button class="register-btn" onclick="toggleForm('register')">Kayıt Ol</button>
 
-<div class="container">
-    <h1 id="typingText">-Yiğit Software-</h1>
-    <button onclick="showLogin()">Giriş</button>
-    <button class="register-btn" onclick="showRegister()">Kayıt Ol</button>
-    <div class="status-text">Uyuyor...</div>
-</div>
+        <!-- Giriş Yap Formu -->
+        <div id="login-form" class="form-container">
+            <input type="text" id="login-username" placeholder="Kullanıcı Adı" />
+            <input type="password" id="login-password" placeholder="Şifre" />
+            <button onclick="loginUser()">Giriş Yap</button>
+        </div>
 
-<!-- Giriş Formu (Başlangıçta Gizli) -->
-<div class="login-section" id="loginSection">
-    <h2>Giriş Yap</h2>
-    <input type="text" placeholder="Kullanıcı Adı" />
-    <input type="password" placeholder="Şifre" />
-    <button>Giriş Yap</button>
-</div>
+        <!-- Kayıt Ol Formu -->
+        <div id="register-form" class="form-container">
+            <input type="text" id="register-username" placeholder="Kullanıcı Adı" />
+            <input type="password" id="register-password" placeholder="Şifre" />
+            <input type="email" id="register-email" placeholder="E-posta" />
+            <input type="text" id="verification-code" placeholder="Doğrulama Kodu" />
+            <button onclick="registerUser()">Kayıt Ol</button>
+        </div>
 
-<!-- Kayıt Ol Formu (Başlangıçta Gizli) -->
-<div class="login-section" id="registerSection" style="display:none;">
-    <h2>Kayıt Ol</h2>
-    <input type="text" placeholder="Kullanıcı Adı" />
-    <input type="email" placeholder="E-posta" />
-    <input type="password" placeholder="Şifre" />
-    <button>Kayıt Ol</button>
-</div>
+        <div class="status-text">Uyuyor...</div>
+    </div>
 
-<script>
-    // Yazı animasyonu tamamlandıktan sonra imleci gizleme
-    const typingText = document.getElementById('typingText');
+    <script>
+        let verificationCode = null;
 
-    // Animasyon bitiminde border-right'ı kaldırmak için zamanlayıcı
-    setTimeout(() => {
-        typingText.style.borderRight = 'none';
-    }, 3000); // 3000ms = 3 saniye sonra
+        function toggleForm(formType) {
+            if (formType === 'login') {
+                document.getElementById('login-form').style.display = 'block';
+                document.getElementById('register-form').style.display = 'none';
+            } else if (formType === 'register') {
+                document.getElementById('register-form').style.display = 'block';
+                document.getElementById('login-form').style.display = 'none';
+                generateVerificationCode();  // Kayıt formunda doğrulama kodu oluştur
+            }
+        }
 
-    function showLogin() {
-        document.getElementById('loginSection').style.display = 'block';
-        document.getElementById('registerSection').style.display = 'none';
-    }
+        function generateVerificationCode() {
+            // 4 basamaktan oluşan rastgele bir doğrulama kodu oluştur
+            verificationCode = Math.floor(1000 + Math.random() * 9000);
+            alert('Doğrulama kodunuz: ' + verificationCode);
+        }
 
-    function showRegister() {
-        document.getElementById('loginSection').style.display = 'none';
-        document.getElementById('registerSection').style.display = 'block';
-    }
-</script>
+        function registerUser() {
+            const username = document.getElementById('register-username').value;
+            const password = document.getElementById('register-password').value;
+            const email = document.getElementById('register-email').value;
+            const enteredCode = document.getElementById('verification-code').value;
+
+            if (username && password && email && enteredCode === verificationCode.toString()) {
+                localStorage.setItem('username', username);
+                localStorage.setItem('password', password);
+                localStorage.setItem('email', email);
+                alert('Kayıt başarılı!');
+                document.getElementById('register-form').style.display = 'none'; 
+            } else if (enteredCode !== verificationCode.toString()) {
+                alert('Geçersiz doğrulama kodu!');
+            } else {
+                alert('Lütfen tüm alanları doldurun ve doğrulama kodunu doğru girin.');
+            }
+        }
+
+        function loginUser() {
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+            
+            const storedUsername = localStorage.getItem('username');
+            const storedPassword = localStorage.getItem('password');
+            
+            if (username === storedUsername && password === storedPassword) {
+                alert('Giriş başarılı!');
+            } else {
+                alert('Kullanıcı adı veya şifre hatalı!');
+            }
+        }
+    </script>
 
 </body>
 </html>
